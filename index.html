@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoPayn | Google Cloud Payment Integration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <style>
+        :root {
+            --primary-green: #10b981;
+            --dark-green: #059669;
+            --light-green: #d1fae5;
+            --white: #ffffff;
+            --light-gray: #f9fafb;
+            --gray: #6b7280;
+            --dark-gray: #374151;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+        
+        body {
+            background-color: var(--white);
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--white) 0%, var(--light-green) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="%2310b981" opacity="0.1" d="M0,0 L100,0 L100,100 Q50,80 0,100 Z"/></svg>');
+            background-size: cover;
+        }
+        
+        .hero-content {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            z-index: 1;
+        }
+        
+        .hero-text {
+            padding: 2rem 0;
+        }
+        
+        .hero-logo {
+            color: var(--primary-green);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .hero-logo span {
+            background: var(--primary-green);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: var(--dark-gray);
+        }
+        
+        .hero h1 span {
+            color: var(--primary-green);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--gray);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+        }
+        
+        .google-cloud-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--light-gray);
+            padding: 0.75rem 1.5rem;
+            border-radius: 2rem;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            color: var(--dark-gray);
+            border: 2px solid var(--primary-green);
+        }
+        
+        .google-cloud-badge img {
+            width: 24px;
+            height: 24px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+        
+        .feature-icon {
+            background: var(--light-green);
+            color: var(--primary-green);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+        
+        .feature-text h3 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .feature-text p {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        /* Code Section */
+        .code-section {
+            background: var(--white);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 2px solid var(--light-green);
+        }
+        
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light-green);
+        }
+        
+        .code-header h2 {
+            color: var(--primary-green);
+            font-size: 1.5rem;
+        }
+        
+        .api-badge {
+            background: var(--primary-green);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        pre {
+            border-radius: 0.5rem;
+            overflow: hidden;
+            margin: 0;
+        }
+        
+        code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+        }
+        
+        .code-description {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--light-green);
+        }
+        
+        .code-description h3 {
+            color: var(--primary-green);
+            margin-bottom: 0.75rem;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: var(--primary-green);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--dark-green);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-green);
+            border: 2px solid var(--primary-green);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--light-green);
+            transform: translateY(-2px);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark-gray);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links a {
+            color: var(--light-green);
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .hero::before {
+                display: none;
+            }
+            
+            .features-grid {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="hero-logo">
+                    <span>N</span> NoPayn
+                </div>
+                
+                <div class="google-cloud-badge">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="#4285F4"/>
+                        <path d="M2 17L12 22L22 17" stroke="#34A853" stroke-width="2"/>
+                        <path d="M2 12L12 17L22 12" stroke="#FBBC05" stroke-width="2"/>
+                    </svg>
+                    Google Cloud Build Partner
+                </div>
+                
+                <h1>High-Risk Payment Processing on <span>Google Cloud</span></h1>
+                
+                <p class="hero-subtitle">
+                    NoPayn provides secure, scalable payment solutions for gaming, CBD, adult entertainment, 
+                    and cryptocurrency industries using Google Cloud's global infrastructure.
+                </p>
+                
+                <div class="features-grid">
+                    <div class="feature">
+                        <div class="feature-icon">✓</div>
+                        <div class="feature-text">
+                            <h3>Real-time Processing</h3>
+                            <p>Powered by Google Cloud Compute Engine</p>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">✓</div>
+                        <div class="feature-text">
+                            <h3>Global Compliance</h3>
+                            <p>GDPR, PSD2 ready with Cloud Security</p>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">✓</div>
+                        <div class="feature-text">
+                            <h3>High Availability</h3>
+                            <p>Kubernetes Engine (GKE) clustering</p>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">✓</div>
+                        <div class="feature-text">
+                            <h3>Smart Analytics</h3>
+                            <p>BigQuery for risk & trend analysis</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cta-buttons">
+                    <a href="#api-demo" class="btn btn-primary">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        View API Demo
+                    </a>
+                    <a href="https://github.com" class="btn btn-secondary" target="_blank">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                        View on GitHub
+                    </a>
+                </div>
+            </div>
+            
+            <div class="code-section" id="api-demo">
+                <div class="code-header">
+                    <h2>Payment API Integration</h2>
+                    <span class="api-badge">REST API v1</span>
+                </div>
+                
+                <pre><code class="language-javascript">// API Payment Request
+const response = await fetch('https://api.nopayn.io/payments', {
+    method: 'POST',
+    headers: {
+        'Authorization': 'Bearer your_api_key',
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        amount: 2999,
+        currency: 'USD',
+        description: 'Order #12345',
+        webhook_url: 'https://yoursite.com/webhook'
+    })
+});
+
+// Handle response and redirect to checkout...</code></pre>
+                
+                <div class="code-description">
+                    <h3>Google Cloud Integration Features</h3>
+                    <p>
+                        • <strong>Cloud Load Balancing</strong>: Global payment routing optimization<br>
+                        • <strong>Cloud SQL</strong>: Secure transaction data management<br>
+                        • <strong>Cloud CDN</strong>: Fast checkout experiences worldwide<br>
+                        • <strong>BigQuery Analytics</strong>: Real-time risk scoring & reporting<br>
+                        • <strong>GKE Clusters</strong>: 99.9% payment processing uptime
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="https://nopayn.site">Website</a>
+            <a href="https://nopayn.site/docs">Documentation</a>
+            <a href="mailto:theis@nopayn.site">Contact</a>
+            <a href="https://cloud.google.com">Google Cloud</a>
+        </div>
+        <p>© 2024 NoPayn. High-Risk Payment Platform on Google Cloud. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Highlight.js initialization
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightBlock(block);
+            });
+        });
+    </script>
+</body>
+</html>
